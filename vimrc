@@ -154,12 +154,16 @@ colorscheme paintbox
 highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
+" Font stuff
+set guifont=DejaVu\ Sans\ Mono:h15.00
+
+" Window size stuff
+set lines=50 columns=150
+
+
 " Numbers
 set number
 set numberwidth=5
-
-" Snippets are activated by Shift+Tab
-let g:snippetsEmu_key = "<S-Tab>"
 
 " Tab completion options
 " (only complete to the longest unambiguous match, and show a menu)
