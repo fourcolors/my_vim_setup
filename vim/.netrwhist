@@ -1,4 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/node/Programming'
-let g:netrw_dirhist_2='/Users/node/Programming/Ruby_on_Rails/jobcept/app/controllers'
