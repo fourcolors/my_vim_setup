@@ -3,6 +3,7 @@
 * c
 * endwise (smart ending for rails)
 * NERDtree (just couldn't live without it)
+* vim_ruby_debugger (requires a gem, see http://github.com/astashov/vim-ruby-debugger for more info)
 
 == Color Schemes == 
 * paintbox (default)
