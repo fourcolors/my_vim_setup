@@ -1,7 +1,7 @@
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
-
+ map <D-T> :tabnew<CR>
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
@@ -112,8 +112,16 @@ map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
-" Maps autocomplete to tab
-imap <Tab><Tab> <C-N>
+" remap code completion to Ctrl+Space {{{2
+if has("gui")
+    " C-Space seems to work under gVim on both Linux and win32
+    inoremap <c-p> <C-n>
+else " no gui
+  if has("unix")
+    inoremap <Nul> <C-n>
+  endif
+endif
+
 
 " Duplicate a selection
 " Visual mode: D
@@ -155,7 +163,7 @@ highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Font stuff
-set guifont=DejaVu\ Sans\ Mono:h15.00
+set guifont=Panic\ Sans:h16.00
 
 " Window size stuff
 set lines=50 columns=150
@@ -180,4 +188,35 @@ let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
 set backupdir=~/.vimtmp,.
 set directory=~/.vimtmp,.
+
+" Run Rspec for the current spec file
+function! RunRspec()
+ruby << EOF
+  buffer = VIM::Buffer.current
+  spec_file = VIM::Buffer.current.name
+  command = "ruby ~/.vim/bin/run_rspec.rb #{spec_file}"
+  print "Running Rspec for #{spec_file}. Results will be displayed in Firefox."
+  system(command)
+EOF
+endfunction
+map <F5> :call RunRspec()<cr>
+
+:set cursorline
+
+" :hi CursorLine   cterm=NONE ctermbg=lightgray ctermfg=white guibg=lightgray guifg=white
+" :hi CursorColumn cterm=NONE ctermbg=lightgray ctermfg=white guibg=lightgray guifg=white
+" :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+ :set visualbell
+
+" , #perl # comments
+map ,# :s/^/#/<CR>
+
+" ,/ C/C++/C#/Java // comments
+map ,/ :s/^/\/\//<CR>
+
+" ,< HTML comment
+map ,< :s/^\(.*\)$/<!-- \1 -->/<CR><Esc>:nohlsearch<CR>
+
+" c++ java style comments
+map ,* :s/^\(.*\)$/\/\* \1 \*\//<CR><Esc>:nohlsearch<CR>
 
