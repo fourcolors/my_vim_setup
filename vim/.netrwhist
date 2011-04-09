@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/Users/node/Projects/cableframes'
 let g:netrw_dirhist_2='/Users/node/Projects/theme_forest_slices/aspen_creative/html'
 let g:netrw_dirhist_3='/Users/node/Projects/test_html'
@@ -7,3 +7,4 @@ let g:netrw_dirhist_4='/Users/node/Projects/cableframes'
 let g:netrw_dirhist_5='/Users/node/Projects/test_html'
 let g:netrw_dirhist_6='/Users/node/Projects/cableframes'
 let g:netrw_dirhist_7='/Users/node/Projects/theme_forest_slices/aspen_creative/html'
+let g:netrw_dirhist_8='/Users/node/Projects/memorysunnew'
