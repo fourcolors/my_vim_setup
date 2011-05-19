@@ -15,6 +15,8 @@ set incsearch		" do incremental searching
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
+" Add support for the .rabl type
+au BufRead,BufNewFile *.rabl setf ruby
 " This is an alternative that also works in block mode, but the deleted
 " text is lost and it only works for putting the current register.
 "vnoremap p "_dp
