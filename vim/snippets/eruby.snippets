@@ -130,10 +130,36 @@ snippet base
 	<base href="${1}" target="${2}"`Close()`>
 snippet r
 	<br`Close()[1:]`>
+snippet p
+	<p>${1:content}</p>
+snippet pi
+	<p id="${1:name}">
+		${2}
+	</p>
 snippet div
+	<div>
+		${1}
+	</div>
+snippet divi
+	<div id="${1:name}">
+		${3}
+	</div><!--${2:$1}-->
+snippet divic
 	<div id="${1:name}" class="${2:class}">
 		${4}
 	</div><!--${3:$1}-->
+snippet span
+	<span>
+	${1}
+	</span>
+snippet fieldset
+	<fieldset>
+		${1}
+	</fieldset>
+snippet section
+	<section>
+		${1}
+	</section>
 # Embed QT Movie
 snippet movie
 	<object width="$2" height="$3" classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"
@@ -148,7 +174,7 @@ snippet movie
 			pluginspage="http://www.apple.com/quicktime/download/"
 		`Close()[1:]`>
 	</object>${6}
-snippet fieldset
+snippet fieldseti
 	<fieldset id="$1">
 		<legend>${1:name}</legend>
 
@@ -169,12 +195,13 @@ snippet ul
 	</ul><!-- ${1:comment} -->
 snippet li
 	<li>${1:content}</li>
-snippet p
-	<p>${1:content}</p>
-
+snippet label
+	<label>
+		${1:content}
+	</label>
 snippet input
 	<input type="${1:text/submit/hidden/button}" name="${2:some_name}" value="${3}"`Close()`>${4}
-snippet label
+snippet labelinput
 	<label for="${2:$1}">${1:name}</label><input type="${3:text/submit/hidden/button}" name="${4:$2}" value="${5}" id="${6:$2}"`Close()`>${7}
 snippet link
 	<link rel="${1:stylesheet}" href="${2:/css/master.css}" type="text/css" media="${3:screen}" charset="utf-8"`Close()`>${4}
@@ -197,3 +224,17 @@ snippet table
 	</table>${4}
 snippet textarea
 	<textarea name="${1:Name}" rows="${2:8}" cols="${3:40}">${4}</textarea>${5}
+snippet rform
+	<%= form_for(${1:object}) do |f| %>
+		${3:content}
+	<% end %><!-- end form_for ${2:$1} -->
+snippet rlabel
+	<%= ${1:f}.label ${2:column} %>
+snippet rtextf
+	<%= ${1:f}.text_field ${2:column} %>
+snippet rtexta
+	<%= ${1:f}.text_area ${2:column} %>
+snippet rsubmit
+	<%= ${1:f}.submit ${2:words} %>
+snippet rfile
+	<%= ${1:f}.file_field ${2:column} %>
