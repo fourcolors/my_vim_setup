@@ -1,163 +1,92 @@
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
- map <D-T> :tabnew<CR>
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
+set nocompatible		" Make vim more usefule by turning off backwards compatiblity with vi
 
-set nobackup
-set nowritebackup
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+" Load Pathogen
+filetype off
+call pathogen#infect()
 
-" Don't use Ex mode, use Q for formatting
-map Q gq
+" File-type highlighting and configuration.
+filetype plugin indent on
 
-" Add support for the .rabl type
-au BufRead,BufNewFile *.rabl setf ruby
-" This is an alternative that also works in block mode, but the deleted
-" text is lost and it only works for putting the current register.
-"vnoremap p "_dp
+syntax on
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-endif
 
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
-  :filetype plugin on
-
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
-
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
-
-  augroup END
-
-else
-
-  set autoindent		" always set autoindenting on
-
-endif " has("autocmd")
-
-" if has("folding")
- "  set foldenable
- "  set foldmethod=syntax
- "  set foldlevel=1
- "  set foldnestmax=2
- "  set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
-" endif
-
-" Softtabs, 2 spaces
+" Tabs and Whitespace
+set nowrap
 set tabstop=2
 set shiftwidth=2
-set expandtab
-
-" Always display the status line
-set laststatus=2
-
-" \ is the leader character
-let mapleader = "\\"
-
-" Edit the README_FOR_APP (makes :R commands work)
-map <Leader>R :e doc/README_FOR_APP<CR>
-
-" Leader shortcuts for Rails commands
-map <Leader>m :Rmodel 
-map <Leader>c :Rcontroller 
-map <Leader>v :Rview 
-map <Leader>u :Runittest 
-map <Leader>f :Rfunctionaltest 
-map <Leader>tm :RTmodel 
-map <Leader>tc :RTcontroller 
-map <Leader>tv :RTview 
-map <Leader>tu :RTunittest 
-map <Leader>tf :RTfunctionaltest 
-map <Leader>sm :RSmodel 
-map <Leader>sc :RScontroller 
-map <Leader>sv :RSview 
-map <Leader>su :RSunittest 
-map <Leader>sf :RSfunctionaltest 
-
-" Hide search highlighting
-map <Leader>h :set invhls <CR>
-
-" Opens an edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>e
-map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
-" Opens a tab edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>t
-map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
-
-" Inserts the path of the currently edited file into a command
-" Command mode: Ctrl+P
-cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-
-" remap code completion to Ctrl+Space {{{2
-if has("gui")
-    " C-Space seems to work under gVim on both Linux and win32
-    inoremap <c-p> <C-n>
-else " no gui
-  if has("unix")
-    inoremap <Nul> <C-n>
-  endif
-endif
+set softtabstop=2
+set expandtab       " expand tabs to spaces
+set list listchars=tab:\ \ ,trail:·
 
 
-" Duplicate a selection
-" Visual mode: D
-vmap D y'>p
+" Indentation
+set autoindent  " indent new lines
+set smartindent " auto insert indentation on braces etc
 
-" For Haml
-au! BufRead,BufNewFile *.haml         setfiletype haml
 
-" No Help, please
-nmap <F1> <Esc>
+" Completion
+set wildmenu			" Make tab completion show a menu
+set wildmode=list:longest,list:full	" Complete only up to the point of ambiguity
+set wildignore=*.o,*.pyc,*.elc,*.obj,*.class,.git,.svn,*.rbc,vendor/gems/*
 
-" Press ^F from insert mode to insert the current file name
-imap <C-F> <C-R>=expand("%")<CR>
 
-" Press Shift+P while in visual mode to replace the selection without
-" overwriting the default register
-vmap P p :call setreg('"', getreg('0')) <CR>
+" Search
+nnoremap / /\v
+vnoremap / /\v
+set ignorecase			" Searching case sensitive only when search has capital
+set smartcase       "
+set gdefault      " don't need /g after :s or :g, default replace on entire line not just first instance
+set showmatch
+set hlsearch 			" Highlight search terms...
+set incsearch 			" ...dynamically as they are typed.
 
-" Display extra whitespace
-set list listchars=tab:»·,trail:·
 
-" Edit routes
-command! Rroutes :e config/routes.rb
-command! RTroutes :tabe config/routes.rb
+set encoding=utf-8
 
-" Local config
-if filereadable(".vimrc.local")
-  source .vimrc.local
-endif
+set scrolloff=3		" Scroll 3 lines instead of 1 when cursor goes off screen
 
-" Use Ack instead of Grep when available
-if executable("ack")
-  set grepprg=ack\ -H\ --nogroup\ --nocolor
-endif
+set showmode 			" Current mode is displayed on bottom line
+
+set showcmd 			" Show (partial) command in status bar
+
+set hidden        " Allow switching buffers without writing to disk
+
+set visualbell 			" Make bell visible instead of audible
+
+set cursorline      " Make current line visible
+
+set ttyfast         " Speed up redrawing operations
+
+set ruler			" Show line, column, %, at bottom of window
+
+set backspace=indent,eol,start 	" Intuitive backspacing in insert mode
+
+set mousehide     " Hide mouse while typing
+
+setlocal spell spelllang=en_us " Set spelling language
+set nospell       " Turn off spelling, turn on as needed
+
+set history=1000		" Keep a longer history
+
+set shortmess=atI 		" Stifle many interruptive prompts
+
+set confirm " use confirm instead of aborting an action
+
+set lazyredraw " Don't update the display while executing macros
+
+set grepprg=ack " use ack instead of grep
+
+
+" Backups & Files
+set backup			" Enable creation of backup file.
+set backupdir=~/.vim/backups 	" Where backups will go.
+set directory=~/.vim/tmp     	" Where temporary files will go.
+let g:yankring_history_file = ".yankring_history" " Where the yankring plugin history should go
+
+
+" Theme
+set title			" vim will set title
+set background=dark
 
 " Color scheme
 colorscheme paintbox
@@ -165,60 +94,84 @@ highlight NonText guibg=#060606
 highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Font stuff
-set guifont=Panic\ Sans:h16.00
+set guifont=DejaVu\ Sans\ Mono:h16.00
 
 " Window size stuff
 set lines=50 columns=150
 
+" ---------------------------------------------------------------------------
+" Text type
+" ---------------------------------------------------------------------------
+"
+" For .rabl type
+au BufRead,BufNewFile *.rabl setf ruby
 
-" Numbers
-set number
-set numberwidth=5
+" For Haml
+au! BufRead,BufNewFile *.haml setfiletype haml
 
-" Tab completion options
-" (only complete to the longest unambiguous match, and show a menu)
-set completeopt=longest,menu
-set wildmode=list:longest,list:full
-set complete=.,t
+" ---------------------------------------------------------------------------
+" Plugins
+" ---------------------------------------------------------------------------
 
-" case only matters with mixed case expressions
-set ignorecase
-set smartcase
+" Command-T
+let g:CommandTMaxHeight=20
 
-" Tags
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
-set backupdir=~/.vimtmp,.
-set directory=~/.vimtmp,.
+" Supertab
+let g:SuperTabDefaultCompletionType = "context"
 
-" Run Rspec for the current spec file
-function! RunRspec()
-ruby << EOF
-  buffer = VIM::Buffer.current
-  spec_file = VIM::Buffer.current.name
-  command = "ruby ~/.vim/bin/run_rspec.rb #{spec_file}"
-  print "Running Rspec for #{spec_file}. Results will be displayed in Firefox."
-  system(command)
-EOF
+
+" ---------------------------------------------------------------------------
+"  Strip all trailing whitespace in file
+" ---------------------------------------------------------------------------
+function! StripWhitespace ()
+    exec ':%s/ \+$//g'
 endfunction
-map <F5> :call RunRspec()<cr>
 
-:set cursorline
 
-" :hi CursorLine   cterm=NONE ctermbg=lightgray ctermfg=white guibg=lightgray guifg=white
-" :hi CursorColumn cterm=NONE ctermbg=lightgray ctermfg=white guibg=lightgray guifg=white
-" :nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
- :set visualbell
+" ----------------------------------------------------------------------------
+"  Key bindings / Mappings
+" ----------------------------------------------------------------------------
 
-" , #perl # comments
-map ,# :s/^/#/<CR>
+" mapleader
+let mapleader = ","
 
-" ,/ C/C++/C#/Java // comments
-map ,/ :s/^/\/\//<CR>
+map <Leader>s :source $MYVIMRC<CR>
+map <Leader>e :e $MYVIMRC<CR>
 
-" ,< HTML comment
-map ,< :s/^\(.*\)$/<!-- \1 -->/<CR><Esc>:nohlsearch<CR>
+" <leader>t mapped to command-t
+" <leader>c* mapped for nerdcommenter
 
-" c++ java style comments
-map ,* :s/^\(.*\)$/\/\* \1 \*\//<CR><Esc>:nohlsearch<CR>
+" clear search
+nnoremap <leader><space> :noh<cr>
 
+map <Leader>w :call StripWhitespace ()<CR>
+
+" map control-backspace to delete the previous word in insert mode
+:imap <C-BS> <C-W>
+
+"""Function key mappings
+" f1 is help
+map <F2> :Ack
+
+
+" Fix command typos (stolen from Adam Katz)
+nmap ; :
+
+" ` is more useful than ' but less accessible.
+nnoremap ' `
+nnoremap ` '
+
+" unmap arrow keys
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+
+" make j and k work better
+nnoremap j gj
+nnoremap k gk
