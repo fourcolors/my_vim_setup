@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chronos. Simple time tracking. </title>
+  <%= stylesheet_link_tag    "application" %>
+  <%= stylesheet_link_tag    "nivo-slider" %>
+  <%= stylesheet_link_tag    "default/default" %>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "jquery.nivo.slider" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <section id="content">
+    <%= yield %>
+  </section><!-- content -->
+
+  <footer>
+    Copyright ChronosApp
+  </footer>
+</body>
+</html>

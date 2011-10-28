@@ -1,0 +1,56 @@
+class ToursController < ApplicationController
+  #before_filter :find_and_verify_provider, :only => [:create, :update, :destory]
+  before_filter :authenticate_user!
+
+  def index
+    @tours = current_user.current_provider.tours.order("name") if current_user
+  end
+
+  def edit
+    @tour = Tour.find(params[:id])
+    # Find out if any tour stops in this tour don't have their coords filled in
+    # Might be good to move this into the model or a helper
+    @tour_route_status = true
+    @tour_route_status = false if @tour.stops.empty?
+    @tour.stops.each do |stop|
+      @tour_route_status = false if stop.coords.blank?
+    end
+  end
+
+  def create
+    # Set up tour with a default name and build it to the users current provider.
+    provider = current_user.current_provider
+    @tour = provider.tours.build(:name => "Tour ##{provider.tours.count + 1}")
+
+    if @tour.save
+      redirect_to edit_tour_path(@tour), :notice => "\"#{@tour.name}\" was just created! You may now update its information"
+    else
+      render :action => :index, :error => "Oops something went wrong. Please tell your system administrator about this problem."
+    end
+  end
+
+  def update
+    @tour = Tour.find(params[:id])
+
+    if @tour.update_attributes(params[:tour])
+      redirect_to edit_tour_path(@tour), :notice => "Successfully updated tour"
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @tour = Tour.find(params[:id])
+    @tour.destroy
+
+    redirect_to tours_path
+  end
+
+  private
+  def find_and_verify_provider 
+    @provider = Tour.find(params[:tour]).provider
+    unless current_user.providers.includes(@provider) or current_user.admin?
+      redirect_to root_path, :error => "You do not permissions to access this"
+    end
+  end
+end

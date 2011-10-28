@@ -1,0 +1,15 @@
+class AddCurrentProviderToUser < ActiveRecord::Migration
+  def self.up
+    add_column :users, :current_provider_id, :integer
+
+    #Set up all new providers
+    User.all.each do |user|
+      user.current_provider = user.providers.first
+      user.save!
+    end
+  end
+
+  def self.down
+    remove_column :users, :current_provider_id
+  end
+end

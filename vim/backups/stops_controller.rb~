@@ -1,0 +1,61 @@
+class StopsController < ApplicationController
+  before_filter :find_tour, :except => [:sort, :positions]
+  respond_to :json, :only => :positions
+
+  def index
+    @stops = @tour.stops
+  end
+
+  def new
+    @stop = Stop.new
+    @stop.build_location
+  end
+
+  def create
+    @stop = Stop.new(params[:stop])
+    @stop.tour = @tour
+    @stop.position = @tour.stops.count + 1
+
+    if @stop.save 
+      redirect_to ['edit', @tour, @stop], :notice => "New tour stop successfully added."
+    else
+      render :new
+    end
+  end
+
+  def edit
+    @stop = @tour.stops.find(params[:id])
+  end
+
+  def update 
+    @stop = @tour.stops.find(params[:id])
+
+    if @stop.update_attributes(params[:stop])
+      redirect_to ['edit', @tour], :notice => "Tour stop successfully updated."
+    else
+      render :edit
+    end
+  end
+
+  def sort
+    params[:stop].each_with_index do |id, index|
+      Stop.update_all(['position=?', index+1], ['id=?', id])
+    end
+    render :nothing => true
+  end
+
+  # Summary #################################################
+  # This returns a list of tour stops in JSON for a given tour
+  # ordered in the correct position. The JSONS format is in
+  # the positions.json.rabl file. 
+  # #########################################################
+  def positions
+    @stops = Tour.find(params[:id]).stops
+  end
+
+  private 
+
+  def find_tour
+    @tour = Tour.find(params[:tour_id])
+  end
+end

@@ -1,0 +1,57 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                   :integer         not null, primary key
+#  name                 :string(255)
+#  email                :string(255)     default(""), not null
+#  encrypted_password   :string(128)     default(""), not null
+#  reset_password_token :string(255)
+#  sign_in_count        :integer         default(0)
+#  current_sign_in_at   :datetime
+#  last_sign_in_at      :datetime
+#  current_sign_in_ip   :string(255)
+#  last_sign_in_ip      :string(255)
+#  confirmation_token   :string(255)
+#  confirmed_at         :datetime
+#  confirmation_sent_at :datetime
+#  password_salt        :string(255)
+#  admin                :boolean         default(FALSE), not null
+#  created_at           :datetime
+#  updated_at           :datetime
+#
+
+class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :lockable and :timeoutable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :trackable, :validatable, :confirmable 
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :name, :email, :password, :password_confirmation
+
+  #Assocations
+  has_many :user_affiliations
+  has_many :providers, :through => :user_affiliations
+  belongs_to :current_provider, :class_name => "Provider"
+
+  #Operators
+  before_save :set_current_provider
+
+  # Methods
+  def owner_of?(provider)
+    UserAffiliation.where(:role => 'owner', :user_id => self.id, :provider_id => provider.id).present?
+  end
+
+  # Returns true if the entered provider is 
+  # this users current provider.
+  def current_provider?(provider)
+    current_provider == provider
+  end
+
+  private 
+
+  def set_current_provider
+    self.current_provider ||= self.providers.first
+  end
+end

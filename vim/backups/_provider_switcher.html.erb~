@@ -1,0 +1,23 @@
+<div id="provider-switcher">
+  <div>
+    <span><strong><%= current_user.current_provider.name %></strong></span>
+  </div>
+  <div class="hide">
+    <header><p>Switch Organization Context</p> <%= link_to "Close", "#" %></header>
+    <ul>
+      <% current_user.providers.each do |provider| %>
+        <li <%= current_user.current_provider?(provider) ? "class=current" :"" %>>
+        <div class="details">
+          <%= link_to current_provider_path(:provider_id => provider), :method => :put do %>
+            <%= provider.name %>
+            <span class="meta">
+              <%= pluralize provider.tours.count, "Tour" %>
+            </span><!-- meta -->
+          <% end %>
+        </div><!-- details -->
+        </li>
+      <% end %>
+    </ul><!-- providers list -->
+    <%= link_to "Manage Organizations", "#" %> 
+  </div> <!-- box that contains a selection of providers -->
+</div> <!-- select-button end -->

@@ -1,0 +1,61 @@
+# == Schema Information
+#
+# Table name: locations
+#
+#  id                       :integer         not null, primary key
+#  name                     :string(255)     not null
+#  description              :text            not null
+#  type                     :string(255)     not null
+#  provider_id              :integer
+#  coords                   :spatial({:srid=
+#  address                  :text
+#  city                     :string(255)
+#  state                    :string(2)
+#  postal_code              :string(10)
+#  phone                    :string(10)
+#  email                    :string(320)
+#  url                      :string(2000)
+#  fee_scale                :integer
+#  fee_description          :text
+#  availability_description :text
+#  created_at               :datetime
+#  updated_at               :datetime
+#
+
+class Location < ActiveRecord::Base
+  TYPES = %w(museum lodging information food restroom transit event).freeze
+  
+  # Use a geographic implementation for the coords column
+  # Otherwise, RGeo defaults to RGeo::Geos::PointImpl instead of
+  # the desired RGeo::Geographic::SphericalPointImpl
+  set_rgeo_factory_for_column(:coords, RGeo::Geographic.spherical_factory(:srid => 4326))
+  
+  #Validations
+  validates :name, :presence => true
+  validates :fee_scale, :inclusion => {:in => 0..3, :allow_nil => true}
+  validates :location_type, :inclusion => {:in => TYPES, :allow_nil => true}
+  validates :phone, :length => {:is => 10, :allow_nil => true}
+  validates :email, :email => true, :length => {:maximum => 320} #using custom email validator
+  #validates :url, :url => true, :length => {:maximum => 2000} #using custom url validator
+  validates :url, :format => {:with => URI.regexp(%w(http https))}, :length => {:maximum => 2000}
+
+  #Contact Validations
+  validates :address, :length => {:maximum => 255}
+  validates :city, :length => {:maximum => 255}, :presence => {:if => :address?} 
+  validates :state, :length => {:is => 2, :allow_blank => true}, :presence => {:if => :address?}
+  validates :postal_code, :length => {:maximum => 10}, :presence => {:if => :address?}
+
+  #Associations
+  has_many :photos, :dependent => :destroy
+  has_many :stops
+  has_one :video
+  belongs_to :provider
+
+  def lng
+    self.coords.x unless coords.nil?
+  end
+
+  def lat
+    self.coords.y unless coords.nil?
+  end
+end

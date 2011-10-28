@@ -1,0 +1,23 @@
+class RollsController < ApplicationController
+  def index
+    @rolls = Roll.all
+  end
+
+  def new
+    @roll = Roll.new
+  end
+
+  def edit
+    @roll = Roll.find(params[:id])
+  end
+
+  def create 
+    @roll = Roll.new(params[:roll])
+
+    if @roll.save
+      redirect_to edit_roll_path(@roll), :alert => "Great! You can now start adding people to your roll."
+    else
+      render :new
+    end
+  end
+end

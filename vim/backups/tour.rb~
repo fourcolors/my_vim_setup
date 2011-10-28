@@ -1,0 +1,47 @@
+# == Schema Information
+#
+# Table name: tours
+#
+#  id              :integer         not null, primary key
+#  coords          :spatial({:srid= not null
+#  published       :boolean         default(FALSE), not null
+#  name            :string(255)     not null
+#  description     :text            not null
+#  fee_scale       :integer
+#  fee_description :text
+#  days_required   :integer
+#  provider_id     :integer         not null
+#  image           :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
+class Tour < ActiveRecord::Base
+  mount_uploader :image, ImageUploader
+
+  #Associations
+  belongs_to :provider
+  has_many :stops, :dependent => :destroy
+
+  #Validations
+  validates :published, :inclusion => { :in => [true, false] }
+  validates :name, :presence => true, :length => {:maximum => 255}
+  accepts_nested_attributes_for :stops
+
+  private 
+  ## Summary ##############################################
+  # Because of an 'update blocker' describe here
+  # http://www.railway.at/2010/03/09/named-scopes-are-dead/
+  # I'm using definitions instead of scope. This should 
+  # Avoid pains in the future.
+  # #######################################################
+  def self.active_published_tours
+    provider = Provider.where(:status => "active")
+    where(:provider_id => provider)
+  end
+
+  def status
+    published ? "Published" : "Not Published"
+  end
+
+end

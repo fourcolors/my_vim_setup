@@ -1,0 +1,88 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                   :integer         not null, primary key
+#  name                 :string(255)
+#  email                :string(255)     default(""), not null
+#  encrypted_password   :string(128)     default(""), not null
+#  reset_password_token :string(255)
+#  sign_in_count        :integer         default(0)
+#  current_sign_in_at   :datetime
+#  last_sign_in_at      :datetime
+#  current_sign_in_ip   :string(255)
+#  last_sign_in_ip      :string(255)
+#  confirmation_token   :string(255)
+#  confirmed_at         :datetime
+#  confirmation_sent_at :datetime
+#  password_salt        :string(255)
+#  admin                :boolean         default(FALSE), not null
+#  created_at           :datetime
+#  updated_at           :datetime
+#
+
+require 'spec_helper'
+
+describe User do
+
+  describe "Assocations" do 
+    it {should have_many(:user_affiliations)}
+    it {should have_many(:providers).through(:user_affiliations)}
+  end
+
+  describe "Validations" do 
+    it {should allow_value(nil).for(:name)}
+    it {should validate_presence_of(:email)}
+    it {should validate_presence_of(:password)}
+    it "shouldn't allow mass assignment of admin" do
+      subject.admin = false
+      subject.attributes = {:admin => true}
+      subject.should_not be_admin
+    end
+  end
+
+  describe "#owner_of" do 
+    context "is a providers owner" do
+      before do
+        @user = Factory.create(:user)
+        @provider = Factory.create(:provider)
+        Factory.create(:user_affiliation, :user => @user, :provider => @provider, :role => "owner")
+      end
+      it "should return true" do
+        @user.owner_of?(@provider).should be_true
+      end
+    end
+
+    context "is not a providers owner" do
+      before do
+        @user = Factory.create(:user)
+        @provider = Factory.create(:provider)
+        Factory.create(:user_affiliation, :user => @user, :provider => @provider)
+      end
+      it "should return false" do
+        @user.owner_of?(@provider).should be_false
+      end
+    end
+  end
+
+  it "should delete a users affilitions when that user is deleted"
+
+  describe "#current_provider?(provider)" do 
+
+    context "when provider is the current_provider" do
+      before do
+        @provider = Factory.build(:provider)
+      end
+
+      it "should return true"
+    end
+
+    context "when provider is not the current_provider" do 
+      before do
+        @provider = Factory.build(:provider)
+      end
+      
+      it "should return false"
+    end
+  end
+end

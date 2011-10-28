@@ -1,0 +1,55 @@
+# == Schema Information
+#
+# Table name: tour_stops
+#
+#  id          :integer         not null, primary key
+#  tour_id     :integer         not null
+#  location_id :integer         not null
+#  position    :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
+class Stop < ActiveRecord::Base
+  TYPES = %w(museum lodging information food restroom transit event).freeze
+
+  # Use a geographic implementation for the coords column
+  # Otherwise, RGeo defaults to RGeo::Geos::PointImpl instead of
+  # the desired RGeo::Geographic::SphericalPointImpl
+  set_rgeo_factory_for_column(:coords, RGeo::Geographic.spherical_factory(:srid => 4326))
+
+  #Associations
+  belongs_to :tour
+  has_one :route_starting_here, :class_name => "TourRoute", :foreign_key => "start_id", :dependent => :destroy
+  has_one :route_ending_here, :class_name => "TourRoute", :foreign_key => "end_id", :dependent => :destroy
+  has_many :photos, :dependent => :destroy
+  has_one :video
+
+  acts_as_list :scope => :tour_id
+
+  #Validations
+  validates :tour, :presence => true
+  validates :position, :uniqueness => {:scope => :tour_id}
+
+  #Location validations
+  validates :name, :presence => true
+  validates :fee_scale, :inclusion => {:in => 0..3, :allow_nil => true}
+  validates :location_type, :inclusion => {:in => TYPES, :allow_nil => true}
+  validates :phone, :length => {:is => 10, :allow_nil => true}
+  validates :email, :email => true, :length => {:maximum => 320} #using custom email validator
+  validates :url, :url => true, :length => {:maximum => 2000} #using custom url validator
+
+  #Contact validations
+  validates :address, :length => {:maximum => 255}
+  validates :city, :length => {:maximum => 255}, :presence => {:if => :address?} 
+  validates :state, :length => {:is => 2, :allow_blank => true}, :presence => {:if => :address?}
+  validates :postal_code, :length => {:maximum => 10}, :presence => {:if => :address?}
+  
+  def lng
+    self.coords.x unless coords.nil?
+  end
+
+  def lat
+    self.coords.y unless coords.nil?
+  end
+end

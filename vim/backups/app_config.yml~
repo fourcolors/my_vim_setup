@@ -1,0 +1,6 @@
+production:
+  domain: nsbo.serv.usu.edu:3000
+staging:
+  domain: changemeexample.com
+development:
+  domain: tour_builder.dev

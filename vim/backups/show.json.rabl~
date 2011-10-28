@@ -1,0 +1,26 @@
+object @tour
+attributes :days_required, :description, :fee_description, :fee_scale, :name, :published, :updated_at, :created_at
+
+node :medium_image_url do |tour|
+  root_url.chop + tour.image.medium.url.to_s
+end
+
+node :thumbnail_image_url do |tour|
+  root_url.chop + tour.image.thumbnail.url.to_s
+end
+
+child :stops do
+    attributes :position, :name, :description, :location_type, :lat, :lng, :address, :city, :state, :postal_code, :phone, :email, :url, :fee_scale, :fee_description, :availability_description, :created_at, :updated_at
+
+    child :photos => :photos do 
+      attribute :name
+      node :medium_image_url do |tour|
+        root_url.chop + tour.image.medium.url.to_s
+      end
+
+      node :thumbnail_image_url do |tour|
+        root_url.chop + tour.image.thumbnail.url.to_s
+      end
+    end
+end
+

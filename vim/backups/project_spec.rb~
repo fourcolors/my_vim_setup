@@ -1,0 +1,11 @@
+require 'spec_helper'
+
+describe Project do
+  describe "Assoications" do 
+    it {should have_many(:tasks)}
+  end
+
+  describe "Validations" do 
+    it {should validate_presence_of(:name)}
+  end
+end

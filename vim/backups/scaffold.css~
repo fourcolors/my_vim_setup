@@ -1,0 +1,218 @@
+fieldset legend{
+  border-top-color:#ffffff;
+  color:#444444;
+  text-shadow:0 1px 0 #ffffff;
+
+  background:#f1f1f1;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f1f1f1', endColorstr='#e8e8e8');
+  background:-webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#e8e8e8));
+  background:-moz-linear-gradient(top,  #f1f1f1,  #e8e8e8);
+  background:-o-linear-gradient(top,  #f1f1f1,  #e8e8e8);
+  border-top:1px solid;
+  display:block;
+  font-size:16px;
+  margin:0;
+  padding:15px 10px;
+  font-weight:700;
+  -webkit-border-top-left-radius:4px; -moz-border-radius-topleft:4px; border-top-left-radius:4px;
+  -webkit-border-top-right-radius:4px; -moz-border-radius-topright:4px; border-top-right-radius:4px;
+}
+
+form legend span{
+  font-size:12px;
+}
+
+input[type=submit]{
+  position:relative;
+  padding:9px 12px;
+  display:inline-block;
+  cursor:pointer;
+  background-repeat:no-repeat;
+  background-position:4px 5px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:700;
+  outline:0 none;
+  text-align:center;
+  text-transform:uppercase;
+  margin:5px 5px 5px 14px;
+  min-height:22px;
+  min-width:8px;
+  white-space:pre-line;
+  vertical-align:baseline;
+}
+
+/***********************************************
+*** Error Messages
+************************************************/
+.alert.warning h2{
+  font-weight:bold;
+  font-size:12pt;
+  margin-bottom:5px;
+}
+
+
+
+#stops{
+  border:1px solid;
+  padding:4px;
+  margin-bottom:18px;
+  -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px;
+  border-color: #CCCCCC #E7E7E7 #FFFFFF;
+  
+}
+
+#stops label{
+  background: -moz-linear-gradient(center top , #F1F1F1, #E8E8E8) repeat scroll 0 0 transparent;
+  color: #444444;
+  text-shadow: 0 1px 0 #FFFFFF;
+  border-top: 1px solid;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  padding: 15px 10px;
+  border-top-color: #FFFFFF;
+  
+}
+
+#stops fieldset{
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: -moz-use-text-color;
+  border-radius: 4px 4px 4px 4px;
+  border-style: solid solid none;
+  border-width: 1px 1px 0;
+  margin: 18px 4px 4px;
+  padding: 0;
+  border-color: #DDDDDD #E7E7E7 #BBBBBB;
+}
+
+#stops fieldset > li{
+  list-style-type: none;
+  background: -moz-linear-gradient(center top , #F6F6F6, #F1F1F1) repeat scroll 0 0 transparent;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-bottom-color: #E7E7E7;
+  border-top-color: #FFFFFF;
+  
+}
+#stops fieldset > p
+{
+  padding:20px 0 5px 20px;
+}
+
+#locate_on_map{
+  float:right;
+  top:42px;
+  right:48px;
+}
+
+#map_coords{
+  margin-bottom:32px;
+}
+
+#map_coords strong{
+  margin-left:15px;
+  font-size:15pt;
+}
+
+#map_coords span{
+  margin-left:5px;
+  font-size:10pt;
+}
+
+.handle{
+  cursor:move;
+  background-image: url("../images/drag_arrow.png");
+  width:16px;
+  height:16px;
+  text-indent:-9999px;
+  float:left;
+  margin:5px 20px 5px 20px;
+}
+
+.ui-tabs .ui-tabs-hide {
+    position: absolute !important;
+    left: -10000px !important;
+    display:block !important;
+}
+
+
+/***********************************************
+*** Tour Route
+************************************************/
+#tour_route_map{
+  margin: 0 auto;
+}
+
+#tour_stop_route_builder{
+  border:1px solid;
+  padding:4px;
+  margin-bottom:18px;
+  -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px;
+  border-color: #CCCCCC #E7E7E7 #FFFFFF;
+  
+}
+
+#tour_stop_route_builder label{
+  background: -moz-linear-gradient(center top , #F1F1F1, #E8E8E8) repeat scroll 0 0 transparent;
+  color: #444444;
+  text-shadow: 0 1px 0 #FFFFFF;
+  border-top: 1px solid;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  padding: 15px 10px;
+  border-top-color: #FFFFFF;
+  
+}
+
+#tour_stop_route_builder fieldset{
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: -moz-use-text-color;
+  border-radius: 4px 4px 4px 4px;
+  border-style: solid solid none;
+  border-width: 1px 1px 0;
+  margin: 18px 4px 4px;
+  padding: 0;
+  border-color: #DDDDDD #E7E7E7 #BBBBBB;
+}
+
+#tour_stop_route_builder fieldset > li{
+  list-style-type: none;
+  background: -moz-linear-gradient(center top , #F6F6F6, #F1F1F1) repeat scroll 0 0 transparent;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-bottom-color: #E7E7E7;
+  border-top-color: #FFFFFF;
+  
+}
+#tour_stop_route_builder fieldset > p
+{
+  padding:20px 0 5px 20px;
+}
+

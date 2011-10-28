@@ -1,0 +1,47 @@
+<% @page_title = @photo.new_record? ? "New photo" : @photo.name %>
+
+<% if @photo.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@photo.errors.count, "error") %> prohibited this post from being saved:</h2>
+    <ul>
+      <% @photo.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= simple_form_for [@stop, @photo], :html => {:multipart => true} do |f| %>
+  <fieldset>
+    <section>
+      <% if @photo.image.present? %>
+        <label for="file_upload_manual">Provide or replace an image<br><span>only jpgs and gifs are allowed. </span><br><br><span><%= image_tag(@photo.image.url(:thumbnail), :alt => '') %></span><br /><%= link_to "View larger image", @photo.image.url %></label>
+    <% else %>
+        <label for="file_upload_manual">Provide an image<br><span>only jpgs and gifs are allowed.</span></label>
+    <% end %>
+        
+      <div><%= f.file_field :image %></div>
+    </section>
+
+    <section>
+      <%= f.label :name, 'Photo Caption' %>
+      <div>
+        <%= f.text_field :name %>
+      </div>
+    </section>
+    <section>
+      <%= f.label :copyright, 'Copyright (optional)' %>
+      <div>
+        <%= f.text_field :copyright %>
+      </div>
+    </section>
+
+    <section>
+    <div>
+      <% content_tag :button, :class=> "small" do %>
+        Update
+      <% end %>
+    </div>
+    </section>
+  </fieldset>
+<% end %>

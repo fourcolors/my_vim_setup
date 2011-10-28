@@ -1,0 +1,38 @@
+# == Schema Information
+#
+# Table name: photos
+#
+#  id          :integer         not null, primary key
+#  location_id :integer
+#  position    :integer
+#  name        :string(255)     not null
+#  copyright   :string(255)
+#  image       :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
+class Photo < ActiveRecord::Base
+  mount_uploader :image, ImageUploader
+
+  # Validations
+  validates :name, :presence => true
+  validates :image, :presence => true
+  validates :position, :uniqueness => {:scope => :location_id}
+  
+  # Scopes and order
+  acts_as_list :scope => :location_id
+  #default_scope order(:position)
+  
+  # Assoications
+  belongs_to :location
+
+
+  def small_image_url
+    self.image.url(:small)
+  end
+
+  def large_image_url
+    self.image.url(:large)
+  end
+end

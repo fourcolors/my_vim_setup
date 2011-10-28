@@ -1,0 +1,5 @@
+module DatetimeHelper
+  def datetime_tag(time)
+    content_tag(:abbr, time.to_s(:default), :title => time.iso8601)
+  end
+end

@@ -1,0 +1,22 @@
+<% @page_title = "Dashboard" %>
+
+<div id="main_content">
+    <%= render :partial => 'provider_switcher' %>
+
+    <div class="tours-wrapper">
+      <h2>Tours</h2>
+      <%= link_to "+ New Tour", tours_path, :method => :post, :class => "button" %>
+
+      <% if @tours.empty? %>
+        <br />
+        <p>You have not created any tours for this organization. To see tours, <%= link_to "create one", new_tour_path %> first.</p>
+      <% else %>
+        <ul class="tours"><%= render @tours %></ul>
+      <% end %>
+    </div><!-- tours -->
+</div><!-- main_content -->
+
+<aside>
+  <h2>Help and Tips</h2>
+  <p>If you need help, this would be a great place to explain items</p>
+</aside>

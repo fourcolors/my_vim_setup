@@ -1,0 +1,583 @@
+/**********************************************
+ * RESET BROWSER FOR HTML 5
+ * for reference see: http://meyerweb.com/eric/tools/css/reset/
+ **********************************************/
+ html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.hide{
+  visibility: none;
+  display: none;
+}
+
+/***************** END RESET *****************/
+
+/*********************************************
+ * MAIN CONTENT STYLING 
+ **********************************************/
+html{
+	background-color:#ffffff;
+	background-image:url(/images/paper_02.png);
+  font-family: 'PT Sans',sans-serif;
+} 
+
+body{
+  width: 978px;
+  margin:0 auto;
+}
+
+h2{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#flash-error{
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  background-color: #B02B2C;
+  border-top: none;
+  width: 956px;
+  -webkit-box-shadow:1px 3px 4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow:1px 3px 4px rgba(0, 0, 0, 0.1);
+  box-shadow:1px 3px 4px rgba(0, 0, 0, 0.1);
+  border-color:#ededed;
+  font-size: small;
+  text-align: center;
+  margin-left: 1px;
+  display: none;
+}
+
+#flash-notice{
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  background-color: #C3D9FF;
+  border-top: none;
+  width: 956px;
+  -webkit-box-shadow:1px 3px 4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow:1px 3px 4px rgba(0, 0, 0, 0.1);
+  box-shadow:1px 3px 4px rgba(0, 0, 0, 0.1);
+  border-color:#ededed;
+  font-size: small;
+  text-align: center;
+  margin-left: 1px;
+  display: none;
+}
+
+
+/*********************************************
+ * HEADER 
+ **********************************************/
+body > header{
+  width: 100%;
+  height: 55px;
+}
+
+body > header > a{
+  float: left;
+  margin-top: 5px;
+  height: 50px;
+}
+
+body > header nav{
+  height: 15px;
+  width: 700px;
+  margin-top: 21px;
+  float: right;
+}
+
+body > header nav h1, body > header nav h2,body > header nav h3, body > header nav h4, body > header nav h5, body > header nav h6{
+	text-shadow:0 2px 0 #000000;
+	color:#f1f1f1;
+}
+
+body > header nav ul li{
+  float:right;
+  list-style: none outside none;
+  font-size: 12px;
+}
+
+body > header nav ul li a{
+	color:#999999;
+  border-radius: 4px;
+  padding: 3px 8px 3px;
+  text-decoration: none
+}
+
+body > header nav ul li a:hover, nav ul li a.active{
+	color:#f1f1f1;
+	background-color:#2e2e33;
+}
+
+/**********************************
+ * PROVIDER SWITCHER BUTTON
+ * *******************************/
+
+/* overlay to handle clicking */
+#menu-overlay{
+  display: none;
+}
+
+body.popup-active #menu-overlay{
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#provider-switcher{
+  float: left;
+  position:relative;
+  font-size:13px;
+	color:#555555;
+}
+
+#provider-switcher a:link{
+  text-decoration: none;
+}
+
+/* Button part */
+#provider-switcher > div:first-child{
+  padding:10px;
+  background: -moz-linear-gradient(center top , #F4F4F4, #ECECEC) repeat scroll 0 0 transparent;
+  border: 1px solid #c7c7c7;
+	text-shadow:0 1px 0 rgba(255,255,255,0.7);
+	background-color:#e6e6e6;
+	-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px 4px 4px 4px;
+  cursor:pointer;
+}
+
+#provider-switcher > div:first-child > span{
+  padding-right:28px;
+  background: url("/images/triangle_down.png") no-repeat scroll transparent;
+  background-position: 100% -5px;
+}
+
+#provider-switcher > div:first-child.selected{
+  background: -moz-linear-gradient(center top , #767676, #9E9E9E) repeat scroll 0 0 transparent;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#767676), to(#9E9E9E));
+  background-image: -moz-linear-gradient(top, #767676, #9E9E9E);
+  background-image: -ms-linear-gradient(top, #767676, #9E9E9E);
+  background-image: -o-linear-gradient(top, #767676, #9E9E9E);
+  color: #fff;
+}
+
+#provider-switcher > div:first-child:hover{
+  -moz-box-shadow: 0px 0px 3px #ccc;
+  -webkit-box-shadow: 0px 0px 3px #ccc;
+  box-shadow: 0px 0px 3px #ccc;
+}
+
+/* Selection box for providers*/
+#provider-switcher > div:first-child + div{
+  position: absolute;
+  border: 1px solid black;
+  top: 40px;
+  left: 0px;
+  width: 110%;
+  min-width: 200px;
+  z-index: 1;
+
+  font-size:13px;
+  background: -moz-linear-gradient(center top , #F4F4F4, #ECECEC) repeat scroll 0 0 transparent;
+  border: 1px solid #c7c7c7;
+	text-shadow:0 1px 0 rgba(255,255,255,0.7);
+	color:#555555;
+	background-color:#e6e6e6;
+	-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px 5px 5px 5px;
+  -moz-border-radius: 5px 5px 5px 5px;
+}
+
+#provider-switcher > div:first-child + div > header{
+  height: 15px;
+  font-weight: bold;
+  padding: 10px 0 10px;
+  background: -moz-linear-gradient(center top , #F6F8F8, #d1d6d6) repeat scroll 0 0 transparent;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#F6F8F8), to(#d1d6d6));
+  background-image: -moz-linear-gradient(top, #F6F8F8, #d1d6d6);
+  background-image: -ms-linear-gradient(top, #F6F8F8, #d1d6d6);
+  background-image: -o-linear-gradient(top, #F6F8F8, #d1d6d6);
+}
+
+#provider-switcher > div:first-child + div > header > p{
+  float: left;
+  padding-left: 10px;
+}
+
+#provider-switcher > div:first-child + div > header > a{
+  margin: -5px 7px 0 0;
+  float: right;
+  width: 24px;
+  height: 24px;
+  background: url(/images/cross.png);
+  text-indent: -9999px;
+}
+#provider-switcher > div:first-child + div > header > a:hover{
+  background: url(/images/cross.png);
+  background-position: 100% -25px;
+}
+
+#provider-switcher > div:first-child + div > header:after{
+  content: '.';
+  height: 0;
+  visibility: hidden;
+  clear: both;
+  display: block;
+}
+
+
+#provider-switcher > div:first-child + div ul{
+  font-weight: bold;
+  color: black;
+}
+
+#provider-switcher > div:first-child + div li{
+}
+
+#provider-switcher > div:first-child + div li .details a .meta{
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  padding-top: 5px;
+}
+
+#provider-switcher .details p{
+  text-decoration: underline;
+}
+
+#provider-switcher > div:first-child + div li a{
+  display: block;
+}
+
+#provider-switcher > div:first-child + div li.current a{
+  background: url(/images/tick.png) 98% 9px no-repeat scroll transparent;
+}
+
+#provider-switcher > div:first-child + div li.current a:hover{
+  background: url(/images/tick.png) 98% -78px no-repeat scroll transparent;
+}
+
+#provider-switcher .details a{
+  padding: 10px;
+}
+
+#provider-switcher a:link{
+  font-weight: bold;
+  color: black;
+}
+
+#provider-switcher a:visited{
+  color: black;
+}
+
+#provider-switcher a:hover{
+}
+
+#provider-switcher > div:first-child + div li:hover{
+  background-color: #accae4;
+  cursor: pointer;
+}
+
+#provider-switcher a:active{
+  text-decoration:none;
+}
+
+/* Manage Organizations link section */
+#provider-switcher > div:first-child + div > a{
+  display: block;
+  font-weight: bold;
+  border-top: 1px solid #d1d6d6;
+  padding: 10px 0 10px 10px;
+  background: url(/images/arrow_right.png) 98% 4px no-repeat scroll transparent;
+}
+#provider-switcher > div:first-child + div > a:hover{
+  color: #6699cc;
+  background: url(/images/arrow_right.png) 98% -19px no-repeat scroll transparent;
+}
+
+/************************************************
+ * CONTENT SECTION
+ ************************************************/
+#content{
+  display: table;
+  -webkit-box-shadow:3px 0 4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow:3px 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow:3px 0 4px rgba(0, 0, 0, 0.1);
+  background-color:#eeeeee;
+  background-image:url(/images/paper_01.png);
+  border-color:#ededed;
+  border-color-top:#ededed;
+}
+
+#main_content{
+  display: table-cell;
+  padding: 15px;
+  width: 650px;
+}
+
+#tabbed-content{
+  display: table-cell;
+  padding: 15px;
+  width: 960px;
+}
+
+#content > aside{
+  padding: 15px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/******************************************
+ * BUTTONS
+ *****************************************/
+a.button{
+  position:relative;
+  font-size:13px;
+	color:#555555;
+  padding:5px;
+  background: -moz-linear-gradient(center top , #F4F4F4, #ECECEC) repeat scroll 0 0 transparent;
+  border: 1px solid #c7c7c7;
+	text-shadow:0 1px 0 rgba(255,255,255,0.7);
+	background-color:#e6e6e6;
+	-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px 4px 4px 4px;
+  cursor:pointer;
+  text-decoration: none;
+}
+
+a.button:hover{
+  -moz-box-shadow: 0px 0px 3px #ccc;
+  -webkit-box-shadow: 0px 0px 3px #ccc;
+  box-shadow: 0px 0px 3px #ccc;
+}
+
+a.button.red{
+	background-color:#f0a8a8;
+}
+
+a.button.red:hover{
+	background-color:#f0cccc;
+}
+
+a.sub-button{
+  margin: 0px;
+	text-shadow:0 1px 0 rgba(255,255,255,0.7);
+	color:#555555;
+	-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.5), inset 0 -2px 5px rgba(0, 0, 0, 0.1);
+	border-color:#c7c7c7 #b2b2b2 #b2b2b2 #c7c7c7;
+	border:1px solid;
+	cursor: pointer;
+	background-repeat:no-repeat;
+	background-position:4px 5px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	text-decoration:none;
+	font-size:11px;
+	font-weight:700;
+	text-align:center;
+	text-transform: uppercase;
+  padding: 5px;
+}
+
+a.sub-button.red{
+	background-color:#f0a8a8;
+}
+
+a.sub-button.red:hover{
+	background-color:#f0cccc;
+}
+
+#new_tour_button{
+  float: left;
+  margin-bottom: 15px;
+}
+
+/*************************************
+ * BOLD TEXT AND P TAGS
+ * **********************************/
+aside p{
+  margin-top: 20px;
+}
+
+/****************************************
+ * TOUR LIST STYLING (DASHBOARD PAGE)
+ ***************************************/
+
+.tours-wrapper{
+  margin-top: 20px;
+  border-color:#ededed;
+  border-color-top:#ededed;
+  float: left;
+}
+
+.tours-wrapper > a{
+  margin: 6px 25px 0 0;
+  padding-left: 30px;
+  padding-right: 30px;
+  float: right;
+}
+
+.tours-wrapper > h2 {
+  padding: 10px 0 10px 20px;
+  float: left;
+}
+
+.tours-wrapper ul{
+  border-right: 1px solid;
+  border-color:#ededed;
+  border-color-top:#ededed;
+  clear: both;
+}
+
+.tours-wrapper ul > li{
+  padding: 15px;
+}
+
+.tours-wrapper ul > li:after{
+  content: '.';
+  height: 0;
+  visibility: hidden;
+  clear: both;
+  display: block;
+}
+
+.tours-wrapper ul > li > img {
+  float: left;
+  background: white;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  box-shadow: 0 0 5px #ccc;
+  -moz-box-shadow: 0 0 5px #ccc;
+  -webkit-box-shadow: 0 0 5px #ccc;
+  padding: 4px;
+  float: left;
+  width: 86px;
+}
+
+.tours-wrapper ul > li > .details{
+  width: 360px;
+  margin: 25px 0 0 15px;
+  float: left;
+}
+
+.tours-wrapper ul > li a.name{
+	color:#555555;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.tours-wrapper ul > li .meta{
+  color: #999999;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.tours-wrapper ul > li .status{
+  width: 120px;
+  float: right;
+  margin-top: 35px;
+  color: #800909;
+}
+
+.tours-wrapper ul > li.published .status{
+  color: #339933;
+}
+
+.tours-wrapper ul > li:hover{
+  background-color: #ededed;
+}
+
+.tours-wrapper > p{
+  padding: 20px;
+  float: left;
+}
+
+.tours-wrapper > p a:link{
+  color: #555;
+}
+
+.tours-wrapper > p a:visited{
+  color: #555;
+}
+
+#tabs{
+  overflow: hidden;
+}
+
+#tabs > p{
+  padding: 20px;
+  float: left;
+}
+
+.ui-tabs-nav{
+  float:right;
+}
+.ui-tabs-nav:after{
+  content: '.';
+  height: 0;
+  visibility: hidden;
+  clear: both;
+  display: block;
+
+}
+
+#general-tab{
+  display: block;
+}

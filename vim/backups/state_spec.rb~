@@ -1,0 +1,13 @@
+require 'spec_helper'
+
+describe State do
+  describe "#self.options_for_select" do 
+    it "should return 51 states" do
+      State.options_for_select.count.should == 51
+    end
+    it "should return an array" do 
+      State.options_for_select.should be_a(Array)
+    end
+    it "should be formatted properly" 
+  end
+end

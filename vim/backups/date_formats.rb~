@@ -1,0 +1,2 @@
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:standard => "%B %e, %Y")
+

@@ -1,0 +1,15 @@
+class CurrentProvidersController < ApplicationController
+  def update
+    provider = Provider.find(params[:provider_id])
+
+    # Can this user switch to view this provider?
+    if current_user.providers.include?(provider)
+      current_user.current_provider = provider
+      current_user.save!
+    else
+      flash.now[:notice] = "You do not have access to that provider."
+    end
+
+    redirect_to root_path
+  end
+end

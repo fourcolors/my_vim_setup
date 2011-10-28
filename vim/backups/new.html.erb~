@@ -1,0 +1,5 @@
+<h1>Create new roll</h1>
+<%= form_for @roll do |f| %>
+  <%= f.text_field :name %> 
+  <%= f.submit %>
+<% end %>

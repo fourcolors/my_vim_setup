@@ -1,0 +1,20 @@
+class UrlValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+
+    #Validate URL format
+    unless value.blank? or value =~ URI.regexp(%w(http https))
+      record.errors[attribute] << (options[:message] || "is not formatted properly. Url's must be formatted like the following: 'http(s)://www.example.com'")
+    end
+
+    #TODO
+    # => Added custom length validator to DRY up adding length in each of the validations in the model 
+    # => Get specs to pass with custom length validations
+    #Validate length
+  #  unless value.nil?
+  #     if value.length >=2000
+  #       record.errors[attribute] << (options[:message] || "is too long (maximum is 2000 characters)")
+  #     end
+  #  end
+  end
+end
+

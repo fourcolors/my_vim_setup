@@ -1,0 +1,11 @@
+# Load the rails application
+require File.expand_path('../application', __FILE__)
+
+# Initialize the rails application
+Chronos::Application.initialize!
+
+# This is a bit of a hack but removes error div from being added to the form elements.
+ActionView::Base.field_error_proc = Proc.new do |html_tag, instance_tag|
+ "#{html_tag}".html_safe
+end
+

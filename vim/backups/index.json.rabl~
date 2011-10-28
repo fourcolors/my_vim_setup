@@ -1,0 +1,11 @@
+collection @tours
+attributes :days_required, :description, :fee_description, :fee_scale, :id, :name, :published, :updated_at, :created_at
+
+node :medium_image_url do |tour|
+  root_url.chop + tour.image.medium.url
+end
+
+node :thumbnail_image_url do |tour|
+  root_url.chop + tour.image.thumbnail.url
+end
+

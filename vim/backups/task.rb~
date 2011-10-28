@@ -1,0 +1,8 @@
+class Task < ActiveRecord::Base
+  # Assoication
+  belongs_to :project
+
+  #Validations
+  validates :name, :presence => true
+  validates :time, :presence => true
+end

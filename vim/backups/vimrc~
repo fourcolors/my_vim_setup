@@ -11,6 +11,7 @@ syntax on
 
 
 " Tabs and Whitespace
+set nowrap
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -97,10 +98,6 @@ set guifont=DejaVu\ Sans\ Mono:h16.00
 
 " Window size stuff
 set lines=50 columns=150
-
-" Numbers
-set number
-set numberwidth=5
 
 " ---------------------------------------------------------------------------
 " Text type

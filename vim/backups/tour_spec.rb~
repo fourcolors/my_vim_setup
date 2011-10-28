@@ -1,0 +1,152 @@
+# == Schema Information
+#
+# Table name: tours
+#
+#  id              :integer         not null, primary key
+#  coords          :spatial({:srid= not null
+#  published       :boolean         default(FALSE), not null
+#  name            :string(255)     not null
+#  description     :text            not null
+#  fee_scale       :integer
+#  fee_description :text
+#  days_required   :integer
+#  provider_id     :integer         not null
+#  image           :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
+require 'spec_helper'
+
+describe Tour do
+  describe "Associations" do 
+    it {should belong_to(:provider)}
+    it {should have_many(:stops)}
+  end
+
+  describe "Validations" do 
+    #it {should ensure_inclusion_of(:published)}
+
+    it {should validate_presence_of(:name)}
+    it {should ensure_length_of(:name).is_at_most(255)}
+
+
+    it {should allow_value(nil).for(:fee_scale)} #nill is an unknown
+    it {should allow_value(nil).for(:fee_description)}
+
+    it {should allow_value(nil).for(:days_required)} #nil is unknown
+  end
+
+  describe "#lat" do
+    context "When there are coordinates" do 
+      before do
+        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
+      end
+      it "should return the coords latitude" do
+        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
+        @tour.lat.should == 39.00
+      end
+    end
+
+    context "When there are no coordinates" do 
+      before do
+        @tour = Factory.build(:tour, :coords => nil)
+      end
+      it "should return nil" do
+        @tour = Factory.build(:tour, :coords => nil)
+        @tour.lat.should be_nil
+      end
+    end
+  end
+
+  describe "#lng" do 
+    context "When there are coordinates" do 
+      before do
+        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
+      end
+      it "should return the coordinates longitude" do 
+        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
+        @tour.lng.should == -111.00
+      end
+    end
+
+    context "When there are no coordinate" do 
+      before do
+        @tour = Factory.build(:tour, :coords => nil)
+      end
+      it "should return nil" do 
+        @tour.lng.should be_nil
+      end
+    end
+  end
+
+  describe "#image" do 
+    it "should be a mounted Carrier Wave uploader" do
+      subject.image.should be_a(ImageUploader)
+    end
+  end
+
+  ## Summary #################################################
+  # I'm using create because I'm working with database calls #
+  # ##########################################################
+  describe "#active_published_tours" do
+    context "Provider is active," do 
+      before do
+        @provider = Factory.create(:provider, :status => "active")
+      end
+      context "tour is published," do 
+        before do
+          @tour = Factory.create(:tour, :published => true, :provider => @provider)
+        end
+        it "should return a valid tour" do
+          Tour.active_published_tours.should == [@tour]
+        end
+      end
+
+      context "tour is not published," do
+        it "should return an empty array" do
+          Tour.active_published_tours.should == []
+        end
+      end
+    end
+
+    context "Provider is pending," do
+      before do
+        @provider = Factory.create(:provider, :status => "pending")
+      end
+      it "should return an empty array" do
+        Tour.active_published_tours.should == []
+      end
+    end
+
+    context "Provider is inactive," do
+      before do
+        @provider = Factory.create(:provider, :status => "inactive")
+      end
+      it "should return an empty array" do
+        Tour.active_published_tours.should == []
+      end
+    end
+  end
+
+  describe "#status" do 
+    context "when tour is published" do 
+      before do 
+        @tour = Factory.build(:tour, :published => true)
+      end
+
+      it "should should return Published for status" do
+        @tour.status.should == "Published"
+      end
+    end
+
+    context "when tour is not published" do 
+      before do 
+        @tour = Factory.build(:tour, :published => false)
+      end
+      it "should return Not Published for status" do
+        @tour.status.should == "Not Published"
+      end
+    end
+  end
+end

@@ -1,0 +1,18 @@
+Builder::Application.routes.draw do
+  devise_for :users, :controllers => {:confirmations => "users/confirmations", :registrations => "users/registrations", :sessions => "users/sessions", :passwords => "users/passwords"}
+
+  namespace "api" do
+    resources :tours, :only => [:index, :show]
+  end
+
+  resources :tours, :except => :show do 
+    resources :stops do 
+      resources :photos
+      post 'sort', :on => :collection
+    end
+  end
+
+  resources :providers
+  resources :current_provider
+  root :to => "tours#index"
+end

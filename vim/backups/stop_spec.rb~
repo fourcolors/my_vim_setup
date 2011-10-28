@@ -1,0 +1,153 @@
+# == Schema Information
+#
+# Table name: tour_stops
+#
+#  id          :integer         not null, primary key
+#  tour_id     :integer         not null
+#  location_id :integer         not null
+#  position    :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
+require 'spec_helper'
+
+describe Stop do
+  describe "Associations" do 
+    it {should belong_to(:tour)}
+    it {should have_one(:route_starting_here)}
+    it {should have_one(:route_ending_here)}
+    it {should have_many(:photos)}
+  end
+
+  describe "Validations" do 
+    it {should validate_presence_of(:tour)}
+    it {should validate_presence_of(:name)}
+
+    # Contact Validations
+    it {should ensure_length_of(:city).is_at_most(255)}
+    it {should ensure_length_of(:state).is_equal_to(2)}
+    it {should ensure_length_of(:postal_code).is_at_most(10)}
+    it {should ensure_length_of(:phone).is_equal_to(10)}
+    it {should ensure_length_of(:url).is_at_most(2000)}
+    it {should ensure_length_of(:email).is_at_most(320)}
+
+    it {should allow_value(nil).for(:address)}
+    it {should allow_value(nil).for(:city)}
+    it {should allow_value(nil).for(:state)}
+    it {should allow_value(nil).for(:postal_code)}
+    it {should allow_value(nil).for(:phone)}
+    it {should allow_value(nil).for(:email)}
+    it {should allow_value(nil).for(:url)}
+    it {should allow_value(nil).for(:fee_scale)}
+    it {should allow_value(nil).for(:fee_description)}
+=begin
+    context "is valid" do 
+      it {should allow_value("123 example street").for(:address)}
+      it {should allow_value("Utah").for(:city)}
+      it {should allow_value("94321").for(:postal_code)}
+      it {should allow_value("5555555555").for(:phone)}
+      it {should allow_value("example@example.com").for(:email)}
+      it {should allow_value("http://www.example.com").for(:url)}
+      it {should allow_value("https://www.example.com").for(:url)}
+    end
+
+    context "is not valid" do 
+      it {should_not allow_value("@example.com").for(:email)}
+      it {should_not allow_value("example@example").for(:email)}
+      it {should_not allow_value("example@").for(:email)}
+      it {should_not allow_value("example@example.").for(:email)}
+      it {should_not allow_value("example").for(:email)}
+
+      it {should_not allow_value("www.example.com").for(:url)} #must have http(s)
+      it {should_not allow_value("example").for(:url)}
+      it {should_not allow_value("http://www.example").for(:url)}
+      it {should_not allow_value("www.example").for(:url)}
+      it {should_not allow_value("www.example.").for(:url)}
+    end
+=end
+    context "when an address is provided" do
+      subject{Factory.build(:stop, :address => "123 Example St.")}
+
+      it {should_not allow_value(nil).for(:city)}
+      it {should_not allow_value(nil).for(:postal_code)}
+      it {should_not allow_value(nil).for(:state)}
+      it {should allow_value("Logan").for(:city)}
+      it {should allow_value("94321").for(:postal_code)}
+    end
+  end
+  TYPES = %w(museum lodging information food restroom transit event).freeze
+  TYPES.each do |t|
+    it {should allow_value(t).for(:location_type)}
+  end
+  it {should_not allow_value('something else').for(:location_type)}
+  
+  #it {should_not allow_value('bogas').for(:coords)}
+  #it {should allow_value('POINT(-111 40)').for(:coords)}
+  #
+  context "when there is already a TourStop in a Tour" do
+    before :each do
+      @first = Factory(:stop)
+    end
+    subject { Factory.build(:stop, :tour => @first.tour) }
+    
+    it {should validate_uniqueness_of(:position).scoped_to(:tour_id)}
+    
+    it "should automatically place a new TourStop into the next available position" do
+      subject.save
+      subject.position.should == @first.position + 1
+    end
+  end
+
+  # Not sure if we really want to do this one
+  it "should ensure uniqueness of the name within a provider"
+  
+  it {should allow_value(nil).for(:fee_scale)} # Unknown fees
+  it {should ensure_inclusion_of(:fee_scale).in_range(0..3)}
+  it {should allow_value(nil).for(:fee_description)} #description is optional
+  
+  describe "#lat" do
+    context "When there are coordinates" do 
+      before do
+        @stop = Factory.build(:stop, :coords => "Point(-111.00 39.00)")
+      end
+      it "should return the coords latitude" do
+        @stop = Factory.build(:stop, :coords => "Point(-111.00 39.00)")
+        @stop.lat.should == 39.00
+      end
+    end
+
+    context "When there are no coordinates" do 
+      before do
+        @stop = Factory.build(:stop, :coords => nil)
+      end
+      it "should return nil" do
+        @stop = Factory.build(:stop, :coords => nil)
+        @stop.lat.should be_nil
+      end
+    end
+  end
+
+=begin
+  describe "#lng" do 
+    context "When there are coordinates" do 
+      before do
+        @stop = Factory.build(:stop, :coords => "Point(-111.00 39.00)")
+      end
+      it "should return the coordinates longitude" do 
+        @stop = Factory.build(:stop, :coords => "Point(-111.00 39.00)")
+        @stop.lng.should == -111.00
+      end
+    end
+
+    context "When there are no coordinate" do 
+      before do
+        @stop = Factory.build(:stop, :coords => nil)
+      end
+      it "should return nil" do 
+        @stop.lng.should be_nil
+      end
+    end
+  end
+=end
+end

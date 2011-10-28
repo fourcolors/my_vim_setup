@@ -1,0 +1,22 @@
+<div id="logo">
+  <h1>Chronos</h1> 
+  <span>Simple time tracking.</span>
+</div><!-- logo -->
+
+<div id="showoff">
+  <div class="theme-default">
+    <div id="slider" class="nivoSlider">
+      <% (1...4).each do |number| %>
+        <%= image_tag("slide#{number}.jpg") %>
+      <% end %>
+    </div>
+  </div>
+</div><!-- showoff -->
+
+<div id="login">
+  <form action="test" method="get" accept-charset="utf-8">
+    <input type="text" >
+    <input type="text" >
+  <input type="submit" value="Login &rarr;">
+  </form>
+</div>

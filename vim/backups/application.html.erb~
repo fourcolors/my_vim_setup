@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8"/>
+    <!-- Javascripts -->
+    <!-- Use Google CDN for jQuery and jQuery UI -->
+    <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" %>
+    <%= javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" %>
+    <%= javascript_include_tag "jquery.uniform" %>
+    <%= javascript_include_tag :defaults %>
+    <%= yield :javascript %>
+
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow:700' rel='stylesheet' type='text/css'>
+
+    <!-- CSS Styles -->
+    <%= stylesheet_link_tag "jquery.uniform" %>
+    <%= stylesheet_link_tag "style" %>
+    <%= yield :css %>
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <link rel="stylesheet" href="/stylesheets/ie.css">
+    <![endif]-->
+
+    <title><%= @page_title + " | " if @page_title %>Tour Builder</title>
+    <%= yield :head %>
+    <%= csrf_meta_tag %>
+  </head>
+
+  <body>
+    <% if flash[:notice] %>
+      <div id="flash-notice">
+        <%= flash[:notice] %>
+      </div>
+    <% elsif flash[:error] %>
+      <div id="flash-error">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+
+    <header>
+      <%= link_to image_tag("logo.png", :alt => "Dashboard"), root_path %>
+      <nav><%= render :partial => "layouts/nav" %></nav>
+    </header>
+
+    <section id="content">
+      <%= yield %>
+    </section>
+
+    <div id="menu-overlay"></div><!-- overlay -->
+  </body>
+</html>

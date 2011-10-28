@@ -1,0 +1,7 @@
+class Project < ActiveRecord::Base
+  #Assoications
+  has_many :tasks
+
+  #Validations
+  validates :name, :presence => true
+end

@@ -1,0 +1,12 @@
+<li <%= "class=published" if tour.published %>>
+  <%= image_tag(tour.image.sq.url) %> 
+  <div class="details">
+    <%= link_to tour.name, edit_tour_path(tour), :class => "name" %> 
+    <div class="meta">
+      Last updated: <%= datetime_tag(tour.updated_at) %> 
+      <br />
+      Stops: <%= tour.stops.count %>
+    </div>
+  </div>
+  <span class="status"><%= tour.status %></span>
+</li>

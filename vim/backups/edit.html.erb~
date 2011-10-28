@@ -1,0 +1,58 @@
+<%= content_for :head do %>
+  <%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=true" %>
+  <%= javascript_include_tag "gmap3" %>
+<% end %>
+
+<% @page_title = @tour.name %>
+
+<div id="tabbed-content">
+  <div id="tabs">
+    <!-- The tab navigation -->
+    <ul>
+      <li><%= link_to "General", "#general-tab" %></li>
+      <li><%= link_to "Contact", "#contact-tab" %></li>
+      <li><%= link_to "Stops", "#stops-tab" %></li>
+    </ul><!-- tab menu items -->
+    <!-- end of tab navigation -->
+    <p>Editing: <%= @tour.name %></p>
+
+    <div id="general-tab">
+      <h2>General </h2>
+      <% form_for @tour, :html => {:multipart => true} do |tour| %>
+      <% end %>
+    </div><!--information tab-->
+    <div id="contact-tab">
+      <h2> Contact Information </h2>
+    </div><!-- contact_tab -->
+
+    <div id="stops-tab">
+      <!-- Sortable tour stops-->
+      <ul id="stops">
+        <label>Current tour stops <%= link_to "Create new tour stop", new_tour_stop_path(@tour), :class => "btn small", :style => "float:right" %></label>
+        <% if @tour.stops.empty? %>
+          <p> You haven't created any tour stops yet. </p>
+        <% end %>
+
+        <% @tour.stops.each do |stop| %>
+          <%= content_tag_for :li, stop do %>
+            <span class="handle">[drag]</span>
+            <%= link_to(stop.name, ['edit', @tour, stop]) %>
+          <% end %>
+        <% end %>
+      </ul> <!-- eo tour_stop_list -->
+      <!-- end of sortable tour stops -->
+
+      <!-- Tour Stop Route Builder --> 
+      <div id="tour_stop_route_builder" class="tour_stop_route_builder">
+        Tour Route Builder
+        <% if @tour_route_status %>
+          <div id="tour_route_map" style="height:400px;" data-positions-url="<%= tour_stops_url(@tour, :format => :json) %>"></div>
+        <% else %>
+          <p> You have tour stops without cooridnate locations, you must first fill in all of the tour stop data including selecting a point on the map befor you can build tour routes</p>
+        <% end %>
+      </div><!--tour_stop_route_builder-->
+      <!-- End of tour stop route builder -->
+    </div><!--stops tab-->
+  </div><!--tabs -->
+</div><!-- main_content -->
+

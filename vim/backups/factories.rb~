@@ -1,0 +1,43 @@
+Factory.define :provider do |p|
+  p.name 'NSBP'
+end
+
+Factory.define :photo do |p|
+  p.association :stop
+  p.name 'My Photo'
+  p.image File.open(File.expand_path("../../fixtures/test.gif", __FILE__))
+end
+
+Factory.define :tour do |t|
+  t.name 'Tour de France'
+  t.description 'Some kind of bike race'
+  t.fee_scale 1
+  t.published true
+  t.association :provider, :factory => :provider
+  t.image File.open(File.expand_path("../../fixtures/test.gif", __FILE__))
+end
+
+Factory.define :stop do |t|
+  t.name 'Tour de France'
+  t.association :tour, :factory => :tour
+  t.coords 'POINT(-111 39)'
+end
+
+Factory.define :user do |u|
+  u.name "Joe"
+  u.email "example@example.com"
+  u.password "123456"
+end
+
+Factory.define :user_affiliation do |ua|
+  ua.user {|a| a.association(:user)}
+  ua.provider {|a| a.association(:provider)}
+  ua.role nil
+end
+
+Factory.define :tour_route do |tr|
+  tr.route "LINESTRING (0.0 0.0, 1.0 1.0, 2.0 1.0, 2.0 2.0)"
+  tr.association :start, :factory => :stop
+  tr.association :end, :factory => :stop
+end
+
