@@ -35,49 +35,9 @@ describe Tour do
     it {should allow_value(nil).for(:fee_description)}
 
     it {should allow_value(nil).for(:days_required)} #nil is unknown
-  end
 
-  describe "#lat" do
-    context "When there are coordinates" do 
-      before do
-        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
-      end
-      it "should return the coords latitude" do
-        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
-        @tour.lat.should == 39.00
-      end
-    end
-
-    context "When there are no coordinates" do 
-      before do
-        @tour = Factory.build(:tour, :coords => nil)
-      end
-      it "should return nil" do
-        @tour = Factory.build(:tour, :coords => nil)
-        @tour.lat.should be_nil
-      end
-    end
-  end
-
-  describe "#lng" do 
-    context "When there are coordinates" do 
-      before do
-        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
-      end
-      it "should return the coordinates longitude" do 
-        @tour = Factory.build(:tour, :coords => "Point(-111.00 39.00)")
-        @tour.lng.should == -111.00
-      end
-    end
-
-    context "When there are no coordinate" do 
-      before do
-        @tour = Factory.build(:tour, :coords => nil)
-      end
-      it "should return nil" do 
-        @tour.lng.should be_nil
-      end
-    end
+    # contact information
+   
   end
 
   describe "#image" do 

@@ -1,0 +1,10 @@
+<div class="link" style="margin-bottom: 5px; overflow: hidden; width: 600px">
+  <div id="vote" style="float: left; width: 100px;">
+    <g:plusone></g:plusone>
+    <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="true"></div>
+  </div><!-- vote -->
+
+  <div style="background-color: #eee; width: 600px; ">
+    <%= link_to "http://www.sterlingcobb.com", "http://www.sterlingcobb.com", :style => "margin-top: 13px;" %>
+  </div><!-- url  -->
+</div><!-- link -->

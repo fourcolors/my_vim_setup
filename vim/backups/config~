@@ -5,7 +5,7 @@
 	logallrefupdates = true
 	ignorecase = true
 [remote "origin"]
-	url = git@github.com:madebylaughing/time_tracker.git
+	url = git@github.com:thenetduck/colors.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
 [branch "master"]
 	remote = origin

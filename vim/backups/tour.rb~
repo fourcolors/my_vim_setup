@@ -21,12 +21,19 @@ class Tour < ActiveRecord::Base
 
   #Associations
   belongs_to :provider
-  has_many :stops, :dependent => :destroy
+  has_many :stops, :order => :position, :dependent => :destroy
 
   #Validations
   validates :published, :inclusion => { :in => [true, false] }
   validates :name, :presence => true, :length => {:maximum => 255}
   accepts_nested_attributes_for :stops
+
+  # Contact Validations
+  validates :city, :length => {:max => 255}
+
+  def status
+    published ? "Published" : "Not Published"
+  end
 
   private 
   ## Summary ##############################################
@@ -39,9 +46,4 @@ class Tour < ActiveRecord::Base
     provider = Provider.where(:status => "active")
     where(:provider_id => provider)
   end
-
-  def status
-    published ? "Published" : "Not Published"
-  end
-
 end

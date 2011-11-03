@@ -1,0 +1,92 @@
+
+.provider-switcher {
+	color: #555555;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.provider-switcher a {
+  text-decoration: none;
+}
+
+.provider-switcher .context-menu-button {
+  font-weight: bold;
+}
+
+.provider-switcher .context-menu-body ul {
+  margin-bottom: 0;
+}
+
+.provider-switcher .context-menu-body li {
+  list-style: none;
+  margin-left: 0;
+}
+
+.provider-switcher .context-menu-body li .meta {
+  display: block;
+  font-size: 80%;
+  font-weight: normal;
+}
+
+.provider-switcher .context-menu-body .details p {
+  text-decoration: underline;
+}
+
+.provider-switcher .context-menu-body li a {
+  display: block;
+}
+
+.provider-switcher .context-menu-body li.current a span:first-child{
+  display: block;
+  position: relative;
+  right: 2px;
+  width: 14px;
+  height: 11px;
+  float: right;
+  background: url(/assets/tick.png) 0 0 no-repeat scroll transparent;
+}
+
+.provider-switcher .context-menu-body li.current a:hover span:first-child {
+  background-position: 104% 0;
+}
+
+.provider-switcher .context-menu-body .details a {
+  padding: 5px 10px;
+}
+
+.provider-switcher .context-menu-body a {
+  font-weight: bold;
+  color: #555555;
+}
+
+.provider-switcher .context-menu-body li:hover {
+  background-color: #accae4;
+  cursor: pointer;
+}
+
+.provider-switcher .context-menu-body a:active {
+  text-decoration:none;
+}
+
+/* Manage Organizations link section */
+
+.provider-switcher .context-menu-body > a {
+  display: block;
+  border-top: 1px solid #d1d6d6;
+  padding: 10px;
+}
+
+.provider-switcher .context-menu-body > a span {
+  display: block;
+  position: relative;
+  top: 3px;
+  float: right;
+  width: 14px;
+  height: 14px;
+  background: url(/assets/arrow_right.png) 0 0 no-repeat scroll transparent;
+}
+
+.provider-switcher .context-menu-body > a:hover span {
+  color: #6699cc;
+  background-position: 0 -16px;
+}

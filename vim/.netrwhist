@@ -1,8 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/Users/node/Projects/nsbo/tour_builder'
 let g:netrw_dirhist_2='/Users/node'
 let g:netrw_dirhist_3='/Users/node/Projects/nsbo/tour_builder'
 let g:netrw_dirhist_4='/Users/node/Projects/chronos'
 let g:netrw_dirhist_5='/Users/node/Projects/whos_here'
 let g:netrw_dirhist_6='/Users/node/Projects/nsbo/tour_builder'
+let g:netrw_dirhist_7='/Users/node/Projects/chronos'
+let g:netrw_dirhist_8='/Users/node/Projects/link_pile'
+let g:netrw_dirhist_9='/Users/node/Projects/nsbo/tour_builder'

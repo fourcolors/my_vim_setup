@@ -1,0 +1,326 @@
+$(function() {
+
+  /****** STYLE FLASH NOTICE MESSAGE ***********************/
+  if($("#flash-notice").html() != "") // there is a flash message
+  {
+    $("#flash-notice").show();
+    setTimeout('$("#flash-notice").slideUp("slow")',5000);
+  }
+
+  if($("#flash-error").html() != "") // there is a flash message
+  {
+    $("#flash-error").show();
+    setTimeout('$("#flash-error").slideUp("slow")',5000);
+  }
+  /*********************************************************/
+
+  // Login magick
+  $("#login_submit_form").live('ajax:error', function(event, data, status, xhr) {
+    $('#errors').remove();
+    $('#login_form').append('<p class = "errors" id ="errors">' + "Email or password incorrect." + '</p>');
+  });
+  /*************************/
+
+  /* Sorting tour stops */
+  $( "#stops" ).sortable({
+    axis:'y',
+    handle: '.handle',
+    items: 'li',
+    opacity: 0.4,
+    scroll: false,
+    update: function(){
+      $.ajax({
+          type: 'post',
+          data: $('#stops').sortable('serialize'),
+          dataType: 'script',
+          url: '/tours/' + window.location.href.match(/\/tours\/(\d)/)[1] +'/stops/sort',
+          complete: function(request){
+            $('#stops').effect('highlight');
+            // This will update the tour map with markers and routes
+            update_tour_route_map();
+          }
+      })
+    }});
+  $( "#tour_stop_list" ).disableSelection();
+  /******************************/
+
+ /* =================== EDIT/NEW TOUR MAP ITEMS =============== */
+  if($("#locate_on_map").length && $("#tour_stop_map").length)
+  {
+    // Add point to map if lat/lng are numbers
+    if(Number($("#lat").val()) && Number($("#lng").val()))
+    {
+      var latlng = new google.maps.LatLng($("#lat").val(), $("#lng").val());
+      // Create map and zoom to center based on lat/lng
+      $('#tour_stop_map').gmap3(
+        {
+          action: 'init',
+          options: {
+            mapTypeId: google.maps.MapTypeId.SATELLITE,
+            center: latlng,
+            zoom: 18
+          }
+        },
+        {
+          action: 'addMarker',
+          latLng: latlng,
+          options: {
+            draggable: true
+          },
+          events: {
+            dragend: function(marker){
+              $('#stop_coords').val('POINT(' + marker.getPosition().lng() + ' ' + marker.getPosition().lat() +')');
+              $('#lat').val(marker.getPosition().lat());
+              $('#lng').val(marker.getPosition().lng());
+            }
+          }
+        }
+      );
+    }
+    else
+    {
+      // Create map and zoom to center
+      var latlng = new google.maps.LatLng("41.735486" , "-111.834388");
+      $('#tour_stop_map').gmap3({
+        action: 'init',
+        options: {
+          mapTypeId: google.maps.MapTypeId.SATELLITE,
+          center: latlng,
+          zoom: 18
+        }
+      });
+    }
+
+    // Geolocate when locate_from_coords is clicked
+    $('#locate_from_coords').live('click', function(){
+      if(Number($('#lat').val()) && Number($('#lng').val()))
+      {
+        var place = new google.maps.LatLng(Number($('#lat').val()), Number($('#lng').val()));
+        $("#tour_stop_map").gmap3(
+          {
+            action: 'clear'
+          },
+          {
+            action: 'setCenter', args:[place]
+          },
+         {
+            action: 'addMarker',
+            latLng: place, 
+            options: {
+              draggable: true
+            },
+            callback: function(marker){
+              // Update html lat/lng values
+              $('#stop_coords').val('POINT(' + marker.getPosition().lng() + ' ' + marker.getPosition().lat() +')');
+              $('#lat').val(marker.getPosition().lat());
+              $('#lng').val(marker.getPosition().lng());
+            },
+            events: {
+              dragend: function(marker){
+                $('#stop_coords').val('POINT(' + marker.getPosition().lng() + ' ' + marker.getPosition().lat() +')');
+                $('#lat').val(marker.getPosition().lat());
+                $('#lng').val(marker.getPosition().lng());
+              }
+            }
+          }
+        );
+      }
+      else
+      {
+        alert("Lat and Lng values must be numbers");
+      }
+
+      return false;
+    });
+    // Geolocate when locate_on_map is clicked.
+    $('#locate_on_map').live('click', function(){
+      /* build the address string from form values */
+      var address = $('#stop_address').val() + ' ';
+      address += $('#stop_city').val() + ', ';
+      address += $('#stop_state').val() + ' ';
+      address += $('#stop_postal_code').val();
+      /* end building address string */
+
+      $("#tour_stop_map").gmap3({
+          action: 'getLatLng', 
+          address: address,
+          callback: function(result){
+          if (result){
+            var place = result[0].geometry.location;
+
+            /*
+             * This will do a couple of things. 
+             * 1. Clear existing markers from the map
+             * 2. Center to new location. 
+             * 3. Add new marker to the map at this location.
+             *  1. After a new marker is added, update the lat/lng div.
+             */
+            $(this).gmap3(
+              {
+                action: 'clear'
+              },
+              {
+                action: 'setCenter', args:[place]
+              },
+              {
+                action: 'addMarker',
+                latLng: place, 
+                options: {
+                  draggable: true
+                },
+                callback: function(marker){
+                  // Update html lat/lng values
+                  $('#stop_coords').val('POINT(' + marker.getPosition().lng() + ' ' + marker.getPosition().lat() +')');
+                  $('#lat').val(marker.getPosition().lat());
+                  $('#lng').val(marker.getPosition().lng());
+                },
+                events: {
+                  dragend: function(marker){
+                    $('#stop_coords').val('POINT(' + marker.getPosition().lng() + ' ' + marker.getPosition().lat() +')');
+                    $('#lat').val(marker.getPosition().lat());
+                    $('#lng').val(marker.getPosition().lng());
+                  }
+                }
+              }
+            );
+
+          } else {
+            alert("Could not locate address on map, try a different address.");
+          }
+        }
+      });
+      return false;
+    });
+  }
+/* =================================================================== */
+
+/* ================ EDIT TOUR ROUTE ================================== */ 
+// Adds tabs
+$("#tabs").tabs();
+
+// Create the tour route map if #tour_route_map div exists
+if($("#tour_route_map").length)
+  update_tour_route_map();
+
+function update_tour_route_map(){
+  var map = new google.maps.Map(document.getElementById("tour_route_map"), {mapTypeId: google.maps.MapTypeId.ROADMAP}); 
+  var directionsService = new google.maps.DirectionsService, bounds = new google.maps.LatLngBounds();
+
+  function renderDirections(result) { 
+  var directionsRenderer = new google.maps.DirectionsRenderer; 
+    directionsRenderer.setOptions({suppressMarkers: true, preserveViewport: true });
+    directionsRenderer.setMap(map); 
+    directionsRenderer.setDirections(result); 
+  } 
+
+  function requestDirections(start, end) { 
+    directionsService.route({ 
+      origin: start, 
+      destination: end, 
+      travelMode: google.maps.DirectionsTravelMode.DRIVING 
+    }, function(result) { 
+      renderDirections(result); 
+    }); 
+  } 
+
+  // grab url from html data attribute in the tour_route_map div
+  $.getJSON($("#tour_route_map").data('positions-url'), function(data){
+    var previous_location = null;
+
+    $.each(data, function(key, val){
+      var current_location = new google.maps.LatLng(val.stop.lat, val.stop.lng); 
+
+      // Add marker
+      var marker = new google.maps.Marker({position: current_location});
+      marker.setMap(map);
+      bounds.extend(marker.getPosition());
+
+      // Draw routes
+      if (previous_location)
+        requestDirections(previous_location, current_location); 
+
+      previous_location = current_location;
+    });
+    
+    // Resize map to fit all routes and icons
+    map.fitBounds(bounds);
+  });
+
+
+  // Refresh map so tabs work.
+  $('#tabs').bind('tabsshow', function(event, ui) {
+    if (ui.panel.id == "stops-tab") {
+      google.maps.event.trigger(map, 'resize');
+      map.fitBounds(bounds);
+    }
+  });
+}
+/*
+ an implemenation with gmap3
+function update_tour_route_map(){
+
+  // grab url from html data attribute in the tour_route_map div
+  $.getJSON($("#tour_route_map").data('positions-url'), function(data){
+
+    var previous_location = null;
+    $.each(data, function(key, val){
+      var current_location = new google.maps.LatLng(val.stop.lat, val.stop.lng); 
+
+      // Add marker
+      $("#tour_route_map").gmap3(
+        {
+          action: 'addMarker',
+          latLng: current_location,
+          map: {
+            mapTypeId: google.maps.MapTypeId.SATELLITE,
+          }
+        }
+      );
+
+      // Draw routes
+      if (previous_location){
+        $('#tour_route_map').gmap3(
+          { 
+            action:'getRoute',
+            options:{
+              origin: previous_location,
+              destination: current_location,
+              travelMode: google.maps.DirectionsTravelMode.DRIVING
+            },
+            callback: function(results){
+              if (!results) return; // don't return anything if there are no results
+              $(this).gmap3(
+                { 
+                  action:'addDirectionsRenderer',
+                  options:{
+                    preserveViewport: true,
+                    suppressMarkers: true,
+                    directions:results
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
+      previous_location = current_location;
+    });
+
+    // Fit map to view routes
+    $('#tour_route_map').gmap3('autofit');
+  });
+
+
+  // Refresh map so tabs work.
+  $('#tabs').bind('tabsshow', function(event, ui) {
+    if (ui.panel.id == "stops_tab") {
+      //google.maps.event.trigger(map, 'resize');
+      //map.setZoom(map.getZoom());
+      //map.panToBounds(map.getBounds());
+    }
+  });
+}
+*/
+
+/* =================================================================== */
+});

@@ -1,22 +1,33 @@
-<% @page_title = "Dashboard" %>
+<% content_for :head do %>
+  <%= javascript_tag do %>
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
 
-<div id="main_content">
-    <%= render :partial => 'provider_switcher' %>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=442576605081";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  <% end %>
+<% end %>
+<h1 style="color: #3F4C6B; text-align: center;">Link Pile </h2> 
+<div id="search" style= "margin: 0 auto; width: 960px; text-align: center">
+  <%= form_for Link.new do |f| %>
+    <%= f.label :url, :style => "display: none" %>
+    <%= f.text_field :url, :style => "padding: 10px; width: 600px; font-size: 20px" %>
+    <%= f.submit "Add link", :style => "font-size: 20px;" %>
+  <% end %>
+</div><!-- search -->
 
-    <div class="tours-wrapper">
-      <h2>Tours</h2>
-      <%= link_to "+ New Tour", tours_path, :method => :post, :class => "button" %>
+<div class="links" style = "margin: 0 auto; width: 960px;">
+  <h2>Top links</h2>
+  <% 1.upto(10) do %>
+    <%= render :partial => 'link' %>
+  <% end %>
+</div><!-- links -->
 
-      <% if @tours.empty? %>
-        <br />
-        <p>You have not created any tours for this organization. To see tours, <%= link_to "create one", new_tour_path %> first.</p>
-      <% else %>
-        <ul class="tours"><%= render @tours %></ul>
-      <% end %>
-    </div><!-- tours -->
-</div><!-- main_content -->
-
-<aside>
-  <h2>Help and Tips</h2>
-  <p>If you need help, this would be a great place to explain items</p>
-</aside>

@@ -1,0 +1,22 @@
+// Place all the styles related to the links controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.link{
+  font-size: 23px;
+  padding: 6px;
+}
+
+a:link{
+  color: #356AA0;
+}
+a:visited{
+  color: #356AA0;
+}
+a:hover{
+  color: #356AA0;
+}
+a:active{
+  color: #356AA0;
+}
+

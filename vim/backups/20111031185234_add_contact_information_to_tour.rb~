@@ -1,0 +1,4 @@
+class AddContactInformationToTour < ActiveRecord::Migration
+  def change
+  end
+end
