@@ -5,8 +5,8 @@
 	logallrefupdates = true
 	ignorecase = true
 [remote "origin"]
-	url = git@github.com:thenetduck/colors.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
+	url = git@github.com:thenetduck/my_vim_setup.git
 [branch "master"]
 	remote = origin
 	merge = refs/heads/master
